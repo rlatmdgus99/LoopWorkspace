@@ -289,8 +289,7 @@ jobs:
           git clone --branch=loop https://github.com/loopandlearn/DanaKit
           echo "Applying customization to add Dana support to Loop"
           curl https://github.com/loopandlearn/LoopWorkspace/commit/155d2e4a89ab5e7e6b423c67f8c0ccb132517ca4.patch | git apply
-      - name: Update entitlement background sound
-        run: sed -i -e 's/<string>bluetooth-central<\/string>/<string>bluetooth-central<\/string><string>audio<\/string>/g' Loop/Loop/Info.plist
+      
       # Patch Fastlane Match to not print tables
       - name: Patch Match Tables
         run: |
@@ -311,6 +310,8 @@ jobs:
         run: sudo sntp -sS time.windows.com
 
       # Build signed Loop IPA file
+      - name: Update entitlement background sound
+        run: sed -i -e 's/<string>bluetooth-central<\/string>/<string>bluetooth-central<\/string><string>audio<\/string>/g' Loop/Loop/Info.plist
       - name: Fastlane Build & Archive
         run: bundle exec fastlane build_loop
         env:
